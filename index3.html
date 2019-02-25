@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        body {
+            background-color: cadetblue;
+        }
+        
+        img {
+            width: 500px;
+            height: 300px;
+        }
+        
+        .box {
+            width: 500px;
+            height: 300px;
+            margin: auto;
+            margin-top: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .box>ul {
+            list-style: none;
+            width: 500%;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .box>ul>li {
+            width: 500px;
+            height: 300px;
+            float: left;
+        }
+        
+        #a1 {
+            display: inline-block;
+            width: 250px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #a1:hover #left {
+            opacity: 0.6;
+        }
+        
+        #left {
+            width: 50px;
+            height: 100px;
+            line-height: 100px;
+            position: absolute;
+            left: 0;
+            top: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ccc;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background-color: rgb(43, 198, 226);
+        }
+        
+        #a2 {
+            display: inline-block;
+            width: 250px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        
+        #a2:hover #right {
+            opacity: 0.6;
+        }
+        
+        #right {
+            width: 50px;
+            height: 100px;
+            line-height: 100px;
+            position: absolute;
+            right: 0;
+            top: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ccc;
+            text-align: center;
+            background-color: rgb(43, 198, 226);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        #ol1 {
+            position: absolute;
+            display: inline-block;
+            bottom: 20px;
+            left: 40%;
+            list-style: none;
+        }
+        
+        #ol1>li {
+            width: 15px;
+            height: 15px;
+            border-radius: 15px;
+            border: 1px solid rgb(198, 201, 202);
+            float: left;
+            margin-left: 9px;
+            cursor: pointer;
+        }
+        
+        .color {
+            background-color: rgba(100, 228, 237, 0.568);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="div1">
+        <ul id="ul1">
+            <li><img src="./img/images/(1).png" alt="我不是图片"></li>
+            <li><img src="./img/images/(2).png" alt="我不是图片"></li>
+            <li><img src="./img/images/(3).png" alt="我不是图片"></li>
+            <li><img src="./img/images/(4).png" alt="我不是图片"></li>
+            <li><img src="./img/images/(1).png" alt="我不是图片"></li>
+        </ul>
+        <a href="#" id="a1"><span id="left"><</span></a>
+        <a href="#" id="a2"><span id="right">></span></a>
+        <ol id='ol1'>
+            <li class="color"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+</body>
+<script>
+    window.onload = function() {
+        var oDiv1 = document.getElementById('div1');
+        var oUl1 = document.getElementById('ul1');
+        var timer1 = null;
+        var timer2 = null;
+        var a = 0;
+        var i = 0;
+        timer1 = setInterval(function() {
+            play1();
+        }, 2000);
+
+        function play1() {
+            if (a == -400) {
+                a = -100;
+                i = 0;
+            } else {
+                a -= 100;
+            }
+            play5();
+        }
+
+        function play4() {
+            if (a == 0) {
+                a = -300;
+                i = -400;
+            } else {
+                a += 100;
+            }
+            play5();
+        }
+        timer2 = setInterval(function() {
+            play2();
+        }, 30);
+
+        function play2() {
+            if (a == i) {
+                // clearInterval(timer2);
+            } else {
+                var speed = (a - i) / 6;
+                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                i = i + speed;
+                oUl1.style.left = i + '%';
+            }
+        }
+        oDiv1.onmouseover = function() {
+            clearInterval(timer1);
+        }
+        oDiv1.onmouseout = function() {
+            timer1 = setInterval(play1, 2000);
+        }
+
+        var oLeft = document.getElementById('left');
+        var oRight = document.getElementById('right');
+        oLeft.onclick = function() {
+            play4();
+        }
+        oRight.onclick = function() {
+            play1();
+        }
+
+        var oOl1 = document.getElementById('ol1');
+        var aLi = oOl1.getElementsByTagName('li');
+        for (b = 0; b < aLi.length; b++) {
+            aLi[b].index = b;
+            aLi[b].onclick = function() {
+                a = -(this.index * 100);
+                play5();
+            }
+        }
+
+        function play5() {
+            var oOl1 = document.getElementById('ol1');
+            var aLi = oOl1.getElementsByTagName('li');
+            var c = -(a / 100);
+            c == 4 ? c = 0 : c;
+            for (b = 0; b < aLi.length; b++) {
+                aLi[b].className = '';
+            }
+            aLi[c].className = 'color';
+        }
+
+
+        var timer3 = null;
+
+        function play3(obj, attr, target) {
+            clearInterval(timer3);
+            timer3 = setInterval(function() {
+                var cur = null;
+                if (attr == 'opacity') {
+                    cur = Math.round(parseFloat(getComputedStyle((obj, null)[attr])) * 100)
+                } else {
+                    cur = parseInt(getComputedStyle(obj, null)[attr]);
+                }
+                var speed = (target - cur) / 7;
+                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                if (cur == target) {
+                    clearInterval(timer3);
+                } else {
+                    if (attr == 'opacity') {
+                        obj.style[attr] = (cur + speed) / 100;
+                    } else {
+                        obj.style[attr] = cur + speed + 'px';
+                    }
+                }
+            }, 30)
+        }
+    }
+</script>
+
+</html>
