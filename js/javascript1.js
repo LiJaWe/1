@@ -51,7 +51,7 @@ window.onload = function() {
     var timer = null;
     oDiv1.onclick = function() {
         clearInterval(timer);
-        var scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
+        var scrolltop = parseInt(document.documentElement.scrollTop || document.body.scrollTop);
         timer = setInterval(function() {
             var speed = (0 - scrolltop) / 9;
             speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
