@@ -11,7 +11,7 @@ $(document).ready(function() {
     })
     var timer2 = null;
 
-    timer2 = setInterval(play1, 4000);
+    
     var i = 0;
     var a = -1;
 
@@ -44,7 +44,7 @@ $(document).ready(function() {
         i = a;
         play1();
     });
-
+timer2 = setInterval(play1, 4000);
 })
 window.onload = function() {
     var oDiv1 = document.getElementById('div1');
